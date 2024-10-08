@@ -2,8 +2,8 @@
 수정 필요(레포트 API으로 이동 필)
 '''
 from fastapi import Request
-from src.utils.use_model import Model
-from src.utils.data_processing import preprocess_text_kiwi, label_decoding
+# from src.utils.use_model import Model
+# from src.utils.data_processing import preprocess_text_kiwi, label_decoding
 from src.api.chat import chat_dao
 from src.api.chat.chat_utils import chatbot_instances
 from src.api.report import report_dao
@@ -15,7 +15,7 @@ import logging
 
 
 _logger = logging.getLogger(__name__)
-model = Model()
+# model = Model()
 
 
 async def save_chatlog_and_get_recommendation(session_id: str, student_email: str):
@@ -35,10 +35,11 @@ async def save_chatlog_and_get_recommendation(session_id: str, student_email: st
         combined_text = " ".join([entry["query"] + " " + entry["response"] for entry in chat_content])
         _logger.info(f'로그 텍스트 병합 : {combined_text}')
         
-        text = preprocess_text_kiwi(combined_text)
-        pred = model.classify_dataframe(text)
-        pred_decoded = label_decoding(pred)
-        
+
+        # text = preprocess_text_kiwi(combined_text)
+        # pred = model.classify_dataframe(text)
+        # pred_decoded = label_decoding(pred)
+        pred_decoded = 'sample'
         ########################################## 레포트 생성 ###################################################
         """
         [ 레포트 내용 ]

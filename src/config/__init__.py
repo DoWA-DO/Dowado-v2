@@ -1,23 +1,16 @@
 """
 애플리케이션 환경 설정 및 로깅 설정 모듈
 """
-from typing import Optional, Tuple, TypeVar, Type
 from pathlib import Path
-import json
 import logging
 import logging.config
 import os
-import sys
-from dataclasses import dataclass
-import dacite
 from dotenv import load_dotenv
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings
-from typing import ClassVar
-from huggingface_hub import login
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline, LlamaTokenizer, LlamaForCausalLM # BitsAndBytesConfig
-from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
-import torch
+# from huggingface_hub import login
+# from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline, LlamaTokenizer, LlamaForCausalLM # BitsAndBytesConfig
+# import torch
 
 
 # .env 파일에서 환경 변수 로드
@@ -101,51 +94,51 @@ def setup_logging():
 
 
 
-############
-# 테스트용 임시
-# hf = None
-chat_model = None
-chat_tokenizer = None
-login(token=settings.general.HUGGINGFACEHUB_API_TOKEN)
-os.environ["TRANSFORMERS_CACHE"] = "./cache/"
-os.environ["HF_HOME"] = "./cache/"
+# ############
+# # 테스트용 임시
+# # hf = None
+# chat_model = None
+# chat_tokenizer = None
+# login(token=settings.general.HUGGINGFACEHUB_API_TOKEN)
+# os.environ["TRANSFORMERS_CACHE"] = "./cache/"
+# os.environ["HF_HOME"] = "./cache/"
 
 
-def load_model():
-    global chat_model, chat_tokenizer
-    model_id = settings.general.HUGGINGFACE_CHATMODEL_REPO_ID
+# def load_model():
+#     global chat_model, chat_tokenizer
+#     model_id = settings.general.HUGGINGFACE_CHATMODEL_REPO_ID
     
-    # # 4bit 양자화를 사용하여 모델 로드
-    # quantization_config = BitsAndBytesConfig(
-    #     load_in_4bit=True,
-    #     bnb_4bit_quant_type="nf4",
-    #     bnb_4bit_compute_dtype=torch.bfloat16
-    # )
+#     # # 4bit 양자화를 사용하여 모델 로드
+#     # quantization_config = BitsAndBytesConfig(
+#     #     load_in_4bit=True,
+#     #     bnb_4bit_quant_type="nf4",
+#     #     bnb_4bit_compute_dtype=torch.bfloat16
+#     # )
     
     
-    device = torch.device('cpu')
-    chat_tokenizer = LlamaTokenizer.from_pretrained(model_id)
-    chat_model = LlamaForCausalLM.from_pretrained(model_id).to(device)
+#     device = torch.device('cpu')
+#     chat_tokenizer = LlamaTokenizer.from_pretrained(model_id)
+#     chat_model = LlamaForCausalLM.from_pretrained(model_id).to(device)
     
-    # chat_model = AutoModelForCausalLM.from_pretrained(
-    #     model_id, device_map="cpu",
-    # )
-    # chat_tokenizer = AutoTokenizer.from_pretrained(model_id)
-    torch.set_default_tensor_type('torch.Float16Tensor')
-    # quantization_config=quantization_config
+#     # chat_model = AutoModelForCausalLM.from_pretrained(
+#     #     model_id, device_map="cpu",
+#     # )
+#     # chat_tokenizer = AutoTokenizer.from_pretrained(model_id)
+#     torch.set_default_tensor_type('torch.Float16Tensor')
+#     # quantization_config=quantization_config
     
-    # pipe = pipeline(
-    #     "text-generation", 
-    #     model=chat_model, 
-    #     tokenizer=chat_tokenizer,
-    # )
+#     # pipe = pipeline(
+#     #     "text-generation", 
+#     #     model=chat_model, 
+#     #     tokenizer=chat_tokenizer,
+#     # )
     
-    # hf = HuggingFacePipeline(pipeline=pipe)
+#     # hf = HuggingFacePipeline(pipeline=pipe)
     
-    # hf = HuggingFacePipeline.from_model_id(
-    #     model_id="ormor/dowado_chat_model",  
-    #     task="text-generation",  
-    #     pipeline_kwargs={"max_new_tokens": 512},
-    # )
+#     # hf = HuggingFacePipeline.from_model_id(
+#     #     model_id="ormor/dowado_chat_model",  
+#     #     task="text-generation",  
+#     #     pipeline_kwargs={"max_new_tokens": 512},
+#     # )
       
-    logging.info(f"{model_id} 모델이 로드되었습니다.")
+#     logging.info(f"{model_id} 모델이 로드되었습니다.")

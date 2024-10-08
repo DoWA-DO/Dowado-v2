@@ -7,7 +7,8 @@
     DoWA:DO-Web-Server
 </h1>
 
-🌟 AIVLE School 5기 빅프로젝트 Team31 'AI 기반 교원 업무 어시스턴트'
+🌟 AIVLE School 5기 빅프로젝트 'AI 기반 교원 업무 어시스턴트' Ver2
+
 
 
 ## 개발 환경 세팅하기
@@ -85,3 +86,13 @@
 
 
 (중요) 실행전에 models/model, models/tokenizer 디렉토리 만들고 코드 추가 필요(문의)
+
+
+- 개발환경 : macOS
+psycopg 모듈 관련 설치전 아래 시행 후 설치할 것.
+```bash
+brew install libpq
+brew link --force libpq
+```
+- libpq 설치
+- PATH 환경변수에 수동으로 시스템 경로 추가

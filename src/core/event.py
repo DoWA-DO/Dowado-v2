@@ -4,7 +4,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from src.database.session import rdb
-from src.config import load_model
+# from src.config import load_model
 import logging
 
 
@@ -22,7 +22,7 @@ def use(app: FastAPI):
         '''
         _logger.info('=>> 서버 시작 이벤트 호출')
         await rdb.create_tables()
-        load_model()
+        # load_model()
         
     
     @app.on_event("shutdown")

@@ -5,7 +5,7 @@ import pickle
 from typing import NewType
 from typing import Dict, List, Optional
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_huggingface import HuggingFaceEndpoint, HuggingFacePipeline
+# from langchain_huggingface import HuggingFaceEndpoint, HuggingFacePipeline
 from langchain_postgres.vectorstores import PGVector
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -16,7 +16,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from src.config import settings
 from src.database.session import DATABASE_URL
 from src.api.chat.chat_constants import contextualize_q_prompt, qa_prompt
-from src.config import chat_tokenizer, chat_model # hf
+# from src.config import chat_tokenizer, chat_model # hf
 # from src.config import chat_model, chat_tokenizer
 import os
 import logging
