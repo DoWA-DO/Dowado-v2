@@ -3,6 +3,7 @@ from pydantic import EmailStr, Field, validator
 from fastapi import Form
 from src.config.dto import BaseDTO
 
+
 class KeyTeacher(BaseDTO):
     teacher_email: Annotated[Union[EmailStr, None], Form(description="교직원 메일")]
 

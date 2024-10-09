@@ -72,8 +72,6 @@ async def update_student_info(
         raise HTTPException(status_code=500, detail="Internal Server Error")
     
 
-
-
 @router.get(
     "/school_list", 
     summary="학교 목록 조회", 

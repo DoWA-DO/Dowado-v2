@@ -14,12 +14,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-SECRET_KEY = settings.jwt.JWT_SECRET_KEY
-ALGORITHM = settings.jwt.JWT_ALGORITHM
-ACCESS_TOKEN_EXPIRE_MINUTES = 30  # 액세스 토큰의 만료 시간(분 단위)
-STUDENT_SCOPE = "student"
-TEACHER_SCOPE = "teacher"
-
 
 # OAuth2PasswordBearer: "/token" 엔드포인트를 사용하여 토큰을 얻도록 설정
 # 클라이언트가 토큰을 얻기 위해 이 URL을 호출
@@ -68,7 +62,7 @@ class JWT:
         to_encode.update({"exp": expire})
         if "sub" not in to_encode or "scope" not in to_encode:
             raise ValueError("Missing required claims: 'sub' or 'scope'")
-        encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        encoded_jwt = jwt.encode(to_encode, settings.jwt.JWT_SECRET_KEY, algorithm=settings.jwt.JWT_ALGORITHM)
         return encoded_jwt
 
 
@@ -80,7 +74,7 @@ class JWT:
         - 유효하지 않은 토큰인 경우 HTTP 예외처리
         """
         try:
-            return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            return jwt.decode(token, settings.jwt.JWT_SECRET_KEY, algorithms=[settings.jwt.JWT_ALGORITHM])
         except InvalidTokenError:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

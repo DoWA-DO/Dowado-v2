@@ -1,60 +1,33 @@
 """
 메인 서버 모듈
 """
-from src.core import DowaDOAPI
-from src.core import cors, error, event, router
-from fastapi.openapi.utils import get_openapi
+from src.core import cors, error, event
+from src.core.router import DowadoAPI
+from src.config import setup_logging
 import logging
-
-
-logging.basicConfig(level=logging.DEBUG)
+setup_logging()
 _logger = logging.getLogger(__name__)
 
-app = DowaDOAPI(**{
-    "title" : "Do:WADO API Server",
-    "description" : "Do:WADO 청소년 AI 진로 추천 서비스",
-    "version" : "0.1",
-    "docs_url" : "/docs",
-    "redoc_url" : "/redoc",
-})
+
+app = DowadoAPI(
+    title="Dowado API Server",
+    description="Semtle 공식 웹페이지",
+    version="0.1",
+    docs_url="/docs",   # 개발 중에는 문서 활성화
+    redoc_url="/redoc", # 개발 중에는 ReDoc 활성화
+    # disable_api_doc=True  # 배포 시 False로 변경할 것, True로 설정하면 API 문서 비활성화
+)
 
 # 확장 모듈 등록
+app.use_router_manager(base_path="src/api")
 app.use(cors)
 app.use(error)
-app.use(router, base="./src/api")
 app.use(event)
-
-
-def custom_openapi():
-    if app.openapi_schema:
-        return app.openapi_schema
-    openapi_schema = get_openapi(
-        title="Do:WADO API Server",
-        version="0.1",
-        description="Do:WADO 청소년 AI 진로 추천 서비스",
-        routes=app.routes,
-    )
-    openapi_schema["components"]["securitySchemes"] = {
-        "OAuth2PasswordBearer": {
-            "type": "oauth2",
-            "flows": {
-                "password": {
-                    "tokenUrl": "/auth/login",
-                    "scopes": {
-                        "student": "Access as student",
-                        "teacher": "Access as teacher",
-                    }
-                }
-            }
-        }
-    }
-    # openapi_schema["security"] = [{"bearerAuth": []}]
-    app.openapi_schema = openapi_schema
-    return app.openapi_schema
-
-app.openapi = custom_openapi
-
 
 
 _logger.info('=>> 서버 시작 중...')
 
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8080, reload=True)

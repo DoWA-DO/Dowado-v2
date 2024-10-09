@@ -10,8 +10,6 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-
-# DATABASE_URL = f"{settings.rdb.DB_PROTOCAL}://{settings.rdb.DB_USERNAME}:{settings.rdb.DB_PASSWORD}@{settings.rdb.DB_HOST}:{settings.rdb.DB_PORT}/{settings.rdb.DB_NAME}"
 DATABASE_URL = settings.rdb.DATABASE_URL
 
 # 비동기 데이터베이스 엔진 생성, 커넥션 풀 생성

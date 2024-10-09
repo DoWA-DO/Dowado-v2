@@ -4,7 +4,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from src.database.session import rdb
-# from src.config import load_model
 import logging
 
 

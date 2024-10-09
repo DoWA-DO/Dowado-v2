@@ -1,22 +1,18 @@
 """
 계정 권한 관련(로그인) API 라우터
 """
-from typing import Annotated, Optional
-from fastapi import APIRouter, Depends, Path
+from typing import Annotated
+from fastapi import APIRouter, Depends
 from src.config.security import (
     STUDENT_SCOPE,
     TEACHER_SCOPE,
-    ACCESS_TOKEN_EXPIRE_MINUTES,
-    JWT,
-    Crypto,
 )
 from src.api.auth import login_service
-from src.api.auth.login_dto import Token, TokenUserInfo, TokenData
+from src.api.auth.login_dto import Token, TokenData
 from src.config.status import ER, SU, Status
-from fastapi import Form, HTTPException, status
+from fastapi import HTTPException, status
 import logging
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from datetime import timedelta, datetime
+from fastapi.security import OAuth2PasswordRequestForm
 
 
 logger = logging.getLogger(__name__)

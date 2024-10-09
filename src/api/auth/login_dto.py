@@ -1,7 +1,4 @@
-from typing import Annotated
-from fastapi import Form
 from pydantic import BaseModel
-from enum import Enum
 
 
 # 클라이언트에게 반환되는 액세스 토큰과 토큰 유형(토큰 발급 시)

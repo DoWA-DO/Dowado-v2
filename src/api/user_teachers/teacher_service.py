@@ -2,6 +2,7 @@ from src.api.user_teachers import teacher_dao
 from src.api.user_teachers.teacher_dto import ReadTeacherInfo, CreateTeacher, UpdateTeacher
 from fastapi import HTTPException
 
+
 async def get_teacher_info(email: str) -> ReadTeacherInfo:
     teacher_info = await teacher_dao.get_teacher_info(email)
     if not teacher_info:
@@ -25,8 +26,4 @@ async def update_teacher_info(email: str, teacher_info: UpdateTeacher) -> None:
     await teacher_dao.update_teacher_info(email, teacher_info)
 
 
-async def save_verification_code(email: str, code: str) -> None:
-    await teacher_dao.save_verification_code(email, code)
 
-async def verify_email(email: str, code: str) -> None:
-    await teacher_dao.verify_email(email, code)

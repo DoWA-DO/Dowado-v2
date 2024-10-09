@@ -8,15 +8,11 @@ import os
 from dotenv import load_dotenv
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings
-# from huggingface_hub import login
-# from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline, LlamaTokenizer, LlamaForCausalLM # BitsAndBytesConfig
-# import torch
 
 
 # .env 파일에서 환경 변수 로드
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
-
 
 class GeneralSettings(BaseSettings):
     OPENAI_API_KEY: SecretStr = SecretStr(os.getenv("OPENAI_API_KEY"))
@@ -56,20 +52,16 @@ class IdxSettings(BaseSettings):
     chunk_overlap: int = 0
     chunk_size: int = 512
     embed_model: str = "text-embedding-ada-002" # "intfloat/e5-small"
-    
     # 추가 옵션
     embedding_length: int = 512 # 768, 임베딩 벡터 길이 제약
-    
     # search type : similarity(코사인유사도), mmr(mmr알고리즘, 다양성에 집중), similarity_score_threshold(유사도 기준값 지정 버전)
     retriever_Q_search_type: str = "mmr"
     retriever_I_search_type: str = "similarity"
-    
     # Chat DB
     REDIS_URL: str = "redis://localhost:6379/0"
     REDIS_HOST: str = "localhost"
     REDIS_PORT: str = "6379"
     
-
 class Settings(BaseSettings):
     general: GeneralSettings = GeneralSettings()
     rdb: RDBSettings = RDBSettings()
@@ -79,18 +71,30 @@ class Settings(BaseSettings):
     
 settings = Settings()
 
+
 """
 로깅 설정
 """
 def setup_logging():
     logging.basicConfig(
-        format="%(asctime)s:%(levelname)s:%(message)s",
-        datefmt="%m/%d/%Y %I:%M:%S %p", 
-        level=logging.DEBUG if settings.general.DEBUG else logging.INFO
+        format=r"[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
+        datefmt= r"%m/%d/%Y %I:%M:%S %p",
+        level= logging.DEBUG if settings.general.DEBUG else logging.INFO,
+        handlers=[
+            logging.StreamHandler(),
+            logging.FileHandler("app.log"),
+        ]
     )
-
+    
+    # 파일 헨들러는 디테일한 포맷 추가
+    file_handler = logging.getLogger().handlers[-1]
+    file_handler.setFormatter(logging.Formatter(
+        r"[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+        datefmt="%m/%d/%Y %I:%M:%S %p"
+    ))
+    
     _logger = logging.getLogger(__name__)
-    _logger.info("Config 로드 완료")
+    _logger.info("환경 설정(src/core/__init__.py) 로드 완료")
 
 
 

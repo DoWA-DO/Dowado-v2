@@ -7,7 +7,9 @@ from src.config.status import Status, SU, ER
 from src.api.user_teachers.teacher_dto import ReadTeacherInfo, CreateTeacher, UpdateTeacher
 from src.api.user_teachers import teacher_service
 from src.config.security import JWT
+from src.api.mail import mail_service
 import logging
+
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/teacher", tags=["회원(교직원) 계정 관련 API"])
@@ -75,7 +77,7 @@ async def update_teacher_info(
 async def verify_teacher_email(email: str, code: str):
     logger.info("----------이메일 인증----------")
     try:
-        await teacher_service.verify_email(email, code)
+        await mail_service.verify_email(email, code)
         return SU.SUCCESS
     except HTTPException as e:
         logger.error(f"Error verifying email: {e.detail}")

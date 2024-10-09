@@ -1,24 +1,26 @@
 # naver smtp 이용하기 전 네이버 메일(서버)에서 pop3/smtp 사용으로 바꿔야 함.
-# mail_service.py
-
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import random
 import smtplib
 import string
 from fastapi import HTTPException
-from .mail_dto import EmailRequest
+from src.api.mail.mail_dto import EmailRequest
+from src.api.mail import mail_dao
 from src.config import settings
 
-
-NAVER_EMAIL = settings.mail.NAVER_EMAIL_ADDRESS
-NAVER_PASSWORD = settings.mail.NAVER_EMAIL_PASSWORD
 
 # Generate random verification code
 def generate_verification_code(length: int = 4) -> str:
     letters_and_digits = string.ascii_letters + string.digits
     return ''.join(random.choice(letters_and_digits) for i in range(length))
   
+async def save_verification_code(email: str, code: str) -> None:
+    await mail_dao.save_verification_code(email, code)
+
+async def verify_email(email: str, code: str) -> None:
+    await mail_dao.verify_email(email, code)
+
 async def send_email(email_request: EmailRequest, verification_code: str):
     smtp_server = "smtp.naver.com"
     smtp_port = 587
@@ -27,11 +29,14 @@ async def send_email(email_request: EmailRequest, verification_code: str):
         server = smtplib.SMTP(smtp_server, smtp_port)
         server.ehlo()
         server.starttls()
-        server.login(NAVER_EMAIL, NAVER_PASSWORD) #서버로 사용할 naver id pw
+        server.login(
+          settings.mail.NAVER_EMAIL_ADDRESS, 
+          settings.mail.NAVER_EMAIL_PASSWORD
+        ) #서버로 사용할 naver id pw
 
         msg = MIMEMultipart('alternative')
         msg['Subject'] = "DOWA:DO 인증 코드입니다."
-        msg['From'] = NAVER_EMAIL
+        msg['From'] = settings.mail.NAVER_EMAIL_ADDRESS
         msg['To'] = email_request.to_email
 
         html = f"""

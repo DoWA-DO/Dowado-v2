@@ -59,21 +59,3 @@ async def update_teacher_info(email: str, teacher_info: UpdateTeacher, session: 
     logger.info("f'선생 정보가 성공적으로 업데이트 되었습니다. : {existing_teacher}")
     
         
-@rdb.dao()
-async def save_verification_code(email: str, code: str, session: AsyncSession = rdb.inject_async()) -> None:
-    db_verification = EmailVerification(
-        email=email,
-        verification_code=code
-    )
-    session.add(db_verification)
-    await session.commit()
-
-@rdb.dao()
-async def verify_email(email: str, code: str, session: AsyncSession = rdb.inject_async()) -> None:
-    result = await session.execute(select(EmailVerification).where(EmailVerification.email == email))
-    verification = result.scalars().first()
-    if verification and verification.verification_code == code:
-        await session.execute(update(UserTeacher).where(UserTeacher.teacher_email == email).values(is_verified=True))
-        await session.commit()
-    else:
-        raise HTTPException(status_code=400, detail="Invalid verification code")

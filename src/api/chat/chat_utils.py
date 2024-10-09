@@ -32,11 +32,11 @@ lang_logging.langsmith("dowado-chat")
 class ChatBase:
     def __init__(self):
         self._SIMILARITY_THRESHOLD = 0.15
-        self._llm = chat_model
-        # self._llm = ChatOpenAI(
-        #     model       = settings.Idx.model_name, 
-        #     temperature = settings.Idx.temperature,
-        # )
+        # self._llm = chat_model
+        self._llm = ChatOpenAI(
+            model       = settings.Idx.model_name, 
+            temperature = settings.Idx.temperature,
+        )
         self.vector_store_I = self._init_vector_store("job_info_docs")
         self.retriever_I = self._init_retriever(self.vector_store_I, settings.Idx.retriever_I_search_type)
         self.chain = self._init_jobinfo_chain()

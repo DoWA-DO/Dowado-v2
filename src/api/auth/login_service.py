@@ -1,21 +1,16 @@
-from typing import Optional, Annotated
+from typing import Annotated
 from fastapi import HTTPException, Depends, status
-from src.config.status import ER
 from src.api.auth import login_dao
+from src.config import settings
 from src.config.security import (
     Crypto, 
     JWT, 
-    oauth2_scheme, 
-    STUDENT_SCOPE, 
-    TEACHER_SCOPE,
-    SECRET_KEY,
-    ACCESS_TOKEN_EXPIRE_MINUTES,
+    oauth2_scheme,
 )
-from src.api.auth.login_dto import Token, TokenUserInfo, TokenData
+from src.api.auth.login_dto import TokenUserInfo
 import logging
-import jwt
 from jwt.exceptions import InvalidTokenError
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 
 logger = logging.getLogger(__name__)
@@ -25,9 +20,9 @@ async def authenticate_user(username: str, password: str, scope: str) -> TokenUs
     - 사용자 인증 함수 (비밀번호 검증)
     - 사용자의 이름과 비밀번호를 검증하여 유효한 사용자인지 확인
     '''
-    if scope == STUDENT_SCOPE:
+    if scope == "student":
         user = await login_dao.get_user_student(username)
-    elif scope == TEACHER_SCOPE:
+    elif scope == "teacher":
         user = await login_dao.get_user_teacher(username)
     else:
         raise HTTPException(
@@ -47,7 +42,7 @@ async def authenticate_user(username: str, password: str, scope: str) -> TokenUs
 
 async def get_access_token(email: str, scope: str):
     ''' email, scope, 현재 시간 으로부터 새로운 토큰 발급 '''
-    acces_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    acces_token_expires = timedelta(minutes=settings.jwt.JWT_ACCESS_TOKEN_EXPIRE_MIN)
     access_token = JWT.create_access_token(
         data={"sub": email, "scope": scope}, expires_delta=acces_token_expires
     )
@@ -72,9 +67,9 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> Tok
         if username is None or scope is None:
             raise credentials_exception       
     
-        if scope == STUDENT_SCOPE:
+        if scope == "student":
             user = await login_dao.get_user_student(username)
-        elif scope == TEACHER_SCOPE:
+        elif scope == "teacher":
             user = await login_dao.get_user_teacher(username)
         
         if user is None:

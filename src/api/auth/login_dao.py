@@ -1,11 +1,7 @@
 from sqlalchemy import select
-from sqlalchemy.engine import Result
-from sqlalchemy.exc import NoResultFound
-from src.database.models import UserTeacher, UserStudent, School
-from src.config.status import ER
+from src.database.models import UserTeacher, UserStudent
 from src.database.session import AsyncSession, rdb
 from src.api.auth.login_dto import TokenUserInfo
-from fastapi import HTTPException
 import logging
 
 
