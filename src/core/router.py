@@ -1,11 +1,10 @@
 """
 FastAPI 확장 모듈
 """
-from typing import Any, Callable, Optional
+from typing import Optional
 from fastapi import APIRouter, FastAPI
 from pathlib import Path
 import importlib
-from functools import wraps
 import logging
 _logger = logging.getLogger(__name__)
 

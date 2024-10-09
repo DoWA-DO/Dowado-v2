@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/file", tags=["파일 업로드 API"])
 
 BASE_DIR = f'data/'
-IMG_DIR = os.path.join(BASE_DIR,'static/images/')
+IMG_DIR = os.path.join(BASE_DIR,'profile/')
 SERVER_IMG_DIR = os.path.join('http://localhost:8000/','static/','images/')
      
 # 이미지 저장 폴더 생성 (없는 경우)
@@ -27,7 +27,6 @@ async def upload_board(in_files: List[UploadFile] = File(...)):
     for file in in_files:
         currentTime = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
         saved_file_name = ''.join([currentTime,secrets.token_hex(16)])
-        print(saved_file_name)
         file_location = os.path.join(IMG_DIR,saved_file_name)
         with open(file_location, "wb+") as file_object:
             file_object.write(file.file.read())

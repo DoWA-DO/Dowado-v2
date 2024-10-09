@@ -1,5 +1,5 @@
 from typing import Annotated, Union
-from pydantic import EmailStr, Field, validator
+from pydantic import EmailStr, validator
 from fastapi import Form
 from src.config.dto import BaseDTO
 

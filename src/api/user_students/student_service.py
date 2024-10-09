@@ -1,8 +1,6 @@
 from src.api.user_students.student_dto import ReadStudentInfo, CreateStudent, UpdateStudent, SchoolDTO
 from src.api.user_students import student_dao
 from fastapi import HTTPException
-from src.config.status import ER
-from src.config.security import Crypto
 from typing import List
 
 

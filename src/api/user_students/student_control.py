@@ -1,14 +1,13 @@
 """
 학생 계정 관련 API 라우터
 """
-from typing import Optional, Annotated, List, Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, Security
+from typing import Annotated, List, Dict, Any
+from fastapi import APIRouter, Depends, HTTPException
 from src.config.status import Status, SU, ER
 from src.api.user_students.student_dto import ReadStudentInfo, CreateStudent, UpdateStudent, SchoolDTO
 from src.api.user_students import student_service
 from src.config.security import JWT
 import logging
-from src.api.auth.login_service import get_current_user
 
 
 logger = logging.getLogger(__name__)

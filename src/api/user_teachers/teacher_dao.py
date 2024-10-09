@@ -1,8 +1,8 @@
-from sqlalchemy import select, update
+from sqlalchemy import select
 from fastapi import HTTPException
 from src.database.session import AsyncSession, rdb
 from src.api.user_teachers.teacher_dto import CreateTeacher, UpdateTeacher
-from src.database.models import UserTeacher, EmailVerification
+from src.database.models import UserTeacher
 from passlib.context import CryptContext
 import logging
 

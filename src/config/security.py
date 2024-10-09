@@ -5,8 +5,8 @@ import jwt
 from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
 from datetime import timedelta, datetime, timezone
-from typing import Annotated, Any, Callable, Tuple, Dict
-from fastapi import HTTPException, status, Depends, Request
+from typing import Any, Dict
+from fastapi import HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from src.config import settings
 import logging
