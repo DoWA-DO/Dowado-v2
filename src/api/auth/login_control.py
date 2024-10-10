@@ -3,10 +3,6 @@
 """
 from typing import Annotated
 from fastapi import APIRouter, Depends
-from src.config.security import (
-    STUDENT_SCOPE,
-    TEACHER_SCOPE,
-)
 from src.api.auth import login_service
 from src.api.auth.login_dto import Token, TokenData
 from src.config.status import ER, SU, Status
@@ -28,9 +24,9 @@ router = APIRouter(prefix="/auth", tags=["계정 권한 관련(로그인) API"],
 )
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()) -> Token:
     if form_data.scopes == ["student"]:
-        scope = STUDENT_SCOPE
+        scope = "student"
     elif form_data.scopes == ["teacher"]:
-        scope = TEACHER_SCOPE
+        scope = "teacher"
 
     user = await login_service.authenticate_user(form_data.username, form_data.password, scope)
     if not user:

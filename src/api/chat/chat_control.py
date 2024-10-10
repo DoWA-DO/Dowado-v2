@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/careerchat", tags=["진로 추천 챗봇 관련 API"])
 
-# 유저 아이디(추후 로그인 정보 입력 받기)
+
 @router.post(
     "/new-session",
     summary     = "새로운 채팅 시작하기 버튼",

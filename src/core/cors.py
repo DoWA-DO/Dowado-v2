@@ -3,6 +3,8 @@ CROS 미들웨어 확장 모듈
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import logging
+_logger = logging.getLogger(__name__)
 
 
 def use(app: FastAPI):
@@ -15,3 +17,4 @@ def use(app: FastAPI):
         expose_headers=["*"],    # 모든 헤더 자바스크립트 접근 허용
         allow_credentials=True,  # 쿠키, 인증 헤더 요청 허용
     )
+    _logger.info("use CORS Module")        

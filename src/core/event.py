@@ -5,8 +5,6 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from src.database.session import rdb
 import logging
-
-
 _logger = logging.getLogger(__name__)
 
 
@@ -30,5 +28,4 @@ def use(app: FastAPI):
         서버 종료 이벤트 처리 함수
         '''
         _logger.info('=>> 서버 종료 이벤트 실행')
-        await rdb.dispose_engine()
-        
+        await rdb.dispose_engine()    

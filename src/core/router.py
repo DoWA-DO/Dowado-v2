@@ -63,7 +63,7 @@ class RouterManager:
     def load_routers(self):
         """ base_path 하위의 모든 *_control.py 파일에서 라우터 로드 """
         api_router = APIRouter()
-        for path in Path(self.base_path).glob("**/*_ctl.py"):
+        for path in Path(self.base_path).glob("**/*_control.py"):
             module_name = self._get_module_name(path)
             _logger.info(f"로드 중: {module_name}")
             router = self._load_module(module_name, "router")

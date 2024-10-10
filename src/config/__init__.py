@@ -62,6 +62,9 @@ class IdxSettings(BaseSettings):
     REDIS_HOST: str = "localhost"
     REDIS_PORT: str = "6379"
     
+    class Config:
+        protected_namespaces = ('setting_',)
+    
 class Settings(BaseSettings):
     general: GeneralSettings = GeneralSettings()
     rdb: RDBSettings = RDBSettings()

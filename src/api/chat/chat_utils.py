@@ -32,7 +32,6 @@ lang_logging.langsmith("dowado-chat")
 class ChatBase:
     def __init__(self):
         self._SIMILARITY_THRESHOLD = 0.15
-        # self._llm = chat_model
         self._llm = ChatOpenAI(
             model       = settings.Idx.model_name, 
             temperature = settings.Idx.temperature,

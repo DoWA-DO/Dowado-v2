@@ -6,8 +6,6 @@ from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import JSONResponse
 from src.config.status import ER
 import logging
-
-
 _logger = logging.getLogger(__name__)
 
 
@@ -38,3 +36,5 @@ def use(app: FastAPI):
         }
         result["detail"] = _error(exc)
         return JSONResponse(status_code=status_code, content=result)
+
+    _logger.info("use CORS Module")
