@@ -3,6 +3,7 @@ FastAPI 확장 모듈
 """
 from typing import Optional
 from fastapi import APIRouter, FastAPI
+from fastapi.openapi.utils import get_openapi
 from pathlib import Path
 import importlib
 import logging
@@ -21,6 +22,7 @@ class DowadoAPI(FastAPI):
         if kwargs.get('disable_api_doc', None):
             kwargs.update({"redoc_url": None, "docs_url": None})
         super().__init__(**kwargs)
+    
     
     def use_router_manager(self, base_path: str):
         """RouterManager를 사용하여 라우터를 로드"""

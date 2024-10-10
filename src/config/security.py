@@ -8,17 +8,16 @@ from datetime import timedelta, datetime, timezone
 from typing import Any, Dict
 from fastapi import HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.openapi.utils import get_openapi
 from src.config import settings
 import logging
-
-
 logger = logging.getLogger(__name__)
 
 
 # OAuth2PasswordBearer: "/token" 엔드포인트를 사용하여 토큰을 얻도록 설정
 # 클라이언트가 토큰을 얻기 위해 이 URL을 호출
 oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl="/api/auth",
+    tokenUrl="/auth/login",
     scopes={"student": "Access as student", "teacher": "Access as teacher"}
 )
 
@@ -111,4 +110,5 @@ class JWT:
         except InvalidTokenError:
             logger.error(f"=>> 토큰이 유효하지 않음")
             raise credentials_exception
-    
+
+

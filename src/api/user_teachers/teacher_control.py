@@ -16,8 +16,8 @@ router = APIRouter(prefix="/teacher", tags=["회원(교직원) 계정 관련 API
 
 @router.post(
     "/sign-up",
-    summary="회원가입",
-    description="교직원 회원가입",
+    summary="🔵 교직원 회원가입",
+    description="첫 교직원 회원가입 전, DB에 학교 추가필요",
     responses=Status.docs(SU.CREATED, ER.DUPLICATE_RECORD),
     status_code=201
 )
@@ -28,7 +28,7 @@ async def create_teacher(teacher_info: CreateTeacher): # Annotated[CreateTeacher
 
 @router.post(
     "/read",
-    summary="개인 정보 조회",
+    summary="🔵 교직원 개인 정보 조회",
     description="- 교직원 개인 정보 조회",
     # dependencies=[Depends(JWT.verify)],
     response_model=ReadTeacherInfo,
@@ -47,8 +47,8 @@ async def get_teacher_info(claims: Annotated[Dict[str, Any], Depends(JWT.verify)
 
 @router.put(
     "/update",
-    summary="개인 정보 수정",
-    description="- 교직원 개인 정보 수정",
+    summary="🔵 개인 정보 수정",
+    description="- 모든 파라미터 입력해야 함(빈값 자동 입력 처리 X)",
     dependencies=[Depends(JWT.verify)],
     responses=Status.docs(SU.SUCCESS, ER.NOT_FOUND, ER.UNAUTHORIZED)
 )
@@ -70,8 +70,8 @@ async def update_teacher_info(
 
 @router.post(
     "/verify-email",
-    summary="이메일 인증",
-    description="이메일로 전송된 인증 코드를 확인하여 계정 인증",
+    summary="🔵 회원가입 시 이메일 인증 버튼",
+    description="- 회원가입 시 이메일로 전송받은 인증 코드를 기입하여 인증하는 엔드포인트",
     responses=Status.docs(SU.SUCCESS)
 )
 async def verify_teacher_email(email: str, code: str):

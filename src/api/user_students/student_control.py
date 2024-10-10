@@ -15,7 +15,7 @@ router = APIRouter(prefix="/student", tags=["회원(학생) 계정 관련 API"])
 
 @router.post(
     "/sign-up",
-    summary="회원가입",
+    summary="🔵 청소년 회원가입",
     description="학생 회원가입",
     responses=Status.docs(SU.CREATED, ER.DUPLICATE_RECORD),
     status_code=201
@@ -28,8 +28,8 @@ async def create_student(student_info: CreateStudent):
 
 @router.post(
     "/read",
-    summary="개인 정보 조회",
-    description="- 학생 개인 정보 조회",
+    summary="🔵 청소년 개인 정보 조회",
+    description="- 학생 개인 정보 조회(학교 아이디, 학생 이름, 학생 이메일, 학년, 반, 번호, 담당교직원 이메일)",
     # dependencies=[Depends(get_current_user)],
     dependencies=[Depends(JWT.verify)],
     response_model=ReadStudentInfo,
@@ -49,7 +49,7 @@ async def get_student_info(claims: Annotated[Dict[str, Any], Depends(JWT.verify)
 
 @router.put(
     "/update",
-    summary="개인 정보 수정",
+    summary="🔵 개인 정보 수정",
     description="- 학생 개인 정보 수정\n값을 모두 입력해야 정상동작함(프론트에서 별도 입력처리 필)",
     dependencies=[Depends(JWT.verify)],
     responses=Status.docs(SU.SUCCESS, ER.NOT_FOUND, ER.UNAUTHORIZED)
@@ -73,7 +73,7 @@ async def update_student_info(
 
 @router.get(
     "/school_list", 
-    summary="학교 목록 조회", 
+    summary="🔵 회원가입 시 학교 목록 조회", 
     description="모든 학교의 목록을 조회합니다.(회원가입 시 체크박스 선택 용도)",
     response_model=List[SchoolDTO]
 )
