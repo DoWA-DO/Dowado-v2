@@ -265,4 +265,9 @@ $RECYCLE.BIN/
 
 cache/
 temp/
-# End of https://www.toptal.com/developers/gitignore/api/windows,macos,venv,python,visualstudiocode
+
+# vectorDB
+demo/chroma_db
+
+
+# End of https://www.toptal.com/developers/gitignore/api/windows,macos,venv,python,visualstudiocode./demo/chroma_db
